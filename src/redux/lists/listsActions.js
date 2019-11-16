@@ -31,14 +31,14 @@ export const dragCard = (
   droppableIdEnd,
   droppableIndexStart,
   droppableIndexEnd,
-  draggableId
+  type
 ) => ({
   type: actionType.DRAG_CARD,
   payload: {
     droppableIdStart,
     droppableIdEnd,
-    droppableIndexStart,
     droppableIndexEnd,
-    draggableId
+    droppableIndexStart,
+    type
   }
 });
