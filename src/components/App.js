@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import PropTypes from 'prop-types';
 import css from './App.module.css';
 import TaskList from './TaskList/TaskList';
 import AddButton from './AddButton/AddButton';
@@ -10,7 +11,7 @@ import * as listsActions from '../redux/lists/listsActions';
 class App extends Component {
   onDragEnd = result => {
     const { dragCard } = this.props;
-    const { destination, source, draggableId, type } = result;
+    const { destination, source, type } = result;
     if (!destination) {
       return;
     }
@@ -20,19 +21,12 @@ class App extends Component {
     ) {
       return;
     }
-    console.log(
-      source.droppableId,
-      destination.droppableId,
-      source.index,
-      destination.index,
-      type
-    );
     dragCard(
       source.droppableId,
       destination.droppableId,
       source.index,
       destination.index,
-      type
+      type,
     );
   };
 
@@ -69,11 +63,20 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  lists: listsSelectors.getLists(state)
+  lists: listsSelectors.getLists(state),
 });
 
 const mapDispatchToProps = {
-  dragCard: listsActions.dragCard
+  dragCard: listsActions.dragCard,
+};
+
+App.defaultProps = {
+  lists: [],
+};
+
+App.propTypes = {
+  dragCard: PropTypes.func.isRequired,
+  lists: PropTypes.arrayOf(),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
