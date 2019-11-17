@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Icon } from '@material-ui/core';
-import css from './AddButton.module.css';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as listsActions from '../../redux/lists/listsActions';
 import shortid from 'shortid';
+import * as listsActions from '../../redux/lists/listsActions';
+import css from './AddButton.module.css';
 
 class AddButton extends Component {
   state = { isFormOpen: false, title: '', description: '' };
@@ -35,7 +36,7 @@ class AddButton extends Component {
       const newList = {
         id: shortid(),
         title,
-        cards: []
+        cards: [],
       };
       addList(newList);
       this.closeFormHandler();
@@ -43,7 +44,7 @@ class AddButton extends Component {
       const newCard = {
         id: shortid(),
         title,
-        description
+        description,
       };
       addCard(listId, newCard);
       this.closeFormHandler();
@@ -82,7 +83,6 @@ class AddButton extends Component {
           onChange={this.inputChangeHandler}
           name="title"
           placeholder={placeholderTitle}
-          autoFocus
           value={title}
         />
         {!isList && (
@@ -91,7 +91,7 @@ class AddButton extends Component {
             name="description"
             placeholder="Enter a description for task..."
             value={description}
-          ></textarea>
+          />
         )}
         <div style={{ display: 'flex' }}>
           <button type="submit">{buttonTitle}</button>
@@ -122,7 +122,14 @@ class AddButton extends Component {
 
 const mapDispatchToProps = {
   addList: listsActions.addList,
-  addCard: listsActions.addCard
+  addCard: listsActions.addCard,
+};
+
+AddButton.propTypes = {
+  addList: PropTypes.func.isRequired,
+  addCard: PropTypes.func.isRequired,
+  isList: PropTypes.bool.isRequired,
+  listId: PropTypes.string.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(AddButton);
