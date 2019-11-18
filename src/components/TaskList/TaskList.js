@@ -1,7 +1,8 @@
 import React from 'react';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
+import PropTypes from 'prop-types';
 import TaskListItem from '../TaskListItem/TaskListItem';
 import AddButton from '../AddButton/AddButton';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
 import css from './TaskList.module.css';
 
 const TaskList = ({ id, title, cards, index }) => (
@@ -18,13 +19,13 @@ const TaskList = ({ id, title, cards, index }) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               <h3>{title}</h3>
               <ul className={css.itemsList}>
-                {cards.map(({ id, title, description }, index) => (
+                {cards.map((listItem, itemIndex) => (
                   <TaskListItem
-                    key={id}
-                    index={index}
-                    id={id}
-                    title={title}
-                    description={description}
+                    key={listItem.id}
+                    index={itemIndex}
+                    id={listItem.id}
+                    title={listItem.title}
+                    description={listItem.description}
                   />
                 ))}
                 <AddButton listId={id} />
@@ -37,5 +38,12 @@ const TaskList = ({ id, title, cards, index }) => (
     )}
   </Draggable>
 );
+
+TaskList.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  cards: PropTypes.arrayOf.isRequired,
+  index: PropTypes.number.isRequired,
+};
 
 export default TaskList;

@@ -1,6 +1,7 @@
 import React from 'react';
-import css from './TaskListItem.module.css';
+import PropTypes from 'prop-types';
 import { Draggable } from 'react-beautiful-dnd';
+import css from './TaskListItem.module.css';
 
 const TaskListItem = ({ id, title, description, index }) => (
   <Draggable draggableId={id} index={index}>
@@ -17,5 +18,16 @@ const TaskListItem = ({ id, title, description, index }) => (
     )}
   </Draggable>
 );
+
+TaskListItem.defaultProps = {
+  description: '',
+};
+
+TaskListItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+};
 
 export default TaskListItem;
