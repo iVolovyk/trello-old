@@ -9,38 +9,38 @@ const initialState = [
       {
         id: '10lkjj',
         title: 'Example',
-        description: 'Card Description'
-      }
-    ]
-  }
+        description: 'Card Description',
+      },
+    ],
+  },
 ];
 
 const listsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case actionType.ADD_LIST:
       return [...state, payload];
-    case actionType.ADD_CARD:
+    case actionType.ADD_CARD: {
       const newState = state.map(list => {
         if (list.id === payload.listId) {
           return {
             ...list,
-            cards: [...list.cards, payload.card]
+            cards: [...list.cards, payload.card],
           };
-        } else {
-          return list;
         }
+        return list;
       });
       return newState;
-    case actionType.DRAG_CARD:
+    }
+    case actionType.DRAG_CARD: {
       const {
         droppableIdStart,
         droppableIdEnd,
         droppableIndexEnd,
         droppableIndexStart,
-        type
+        listType,
       } = payload;
 
-      if (type === 'list') {
+      if (listType === 'list') {
         const newState = [...state];
         const list = newState.splice(droppableIndexStart, 1);
         newState.splice(droppableIndexEnd, 0, ...list);
@@ -49,10 +49,8 @@ const listsReducer = (state = initialState, { type, payload }) => {
 
       // in the same list
       if (droppableIdStart === droppableIdEnd) {
-        const list = state.find(list => droppableIdStart === list.id);
-        console.log(list);
+        const list = state.find(taskList => droppableIdStart === taskList.id);
         const card = list.cards.splice(droppableIndexStart, 1);
-        console.log(card);
         list.cards.splice(droppableIndexEnd, 0, ...card);
       }
 
@@ -65,6 +63,7 @@ const listsReducer = (state = initialState, { type, payload }) => {
         listEnd.cards.splice(droppableIndexEnd, 0, ...card);
       }
       return [...state];
+    }
     default:
       return state;
   }

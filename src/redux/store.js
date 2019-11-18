@@ -3,7 +3,7 @@ import { devToolsEnhancer } from 'redux-devtools-extension';
 import listsReducer from './lists/listsReducer';
 
 const rootReducer = combineReducers({
-  lists: listsReducer
+  lists: listsReducer,
 });
 
 const store = createStore(rootReducer, devToolsEnhancer());
