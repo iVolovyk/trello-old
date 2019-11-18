@@ -50,7 +50,8 @@
       {
         "ignoreClassFields": true
       }
-    ]
+    ],
+    "no-shadow": ["error", { "allow": ["provided"] }]
   },
   "globals": {
     "window": true,
